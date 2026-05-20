@@ -7,7 +7,8 @@
     "scans": "扫描任务",
     "reports": "报表",
     "statistics": "统计分析",
-    "settings": "设置"
+    "settings": "设置",
+    "back": "返回"
   },
   "auth": {
     "username": "用户名",
@@ -33,5 +34,37 @@
     "status": "状态",
     "riskScore": "风险评分",
     "noScans": "暂无扫描记录"
+  },
+  "scans": {
+    "title": "扫描任务",
+    "upload": "上传文件",
+    "uploadNew": "上传新扫描",
+    "appName": "应用名称",
+    "appVersion": "版本",
+    "platform": "平台",
+    "selectFile": "选择文件",
+    "dragUpload": "拖拽文件到此处上传",
+    "status": "状态",
+    "riskScore": "风险评分",
+    "createdAt": "创建时间",
+    "loadFailed": "加载失败",
+    "uploadSuccess": "上传成功",
+    "uploadFailed": "上传失败",
+    "deleteSuccess": "删除成功",
+    "deleteFailed": "删除失败",
+    "confirmDelete": "确认删除？",
+    "detailLoadFailed": "加载详情失败"
+  },
+  "results": {
+    "title": "扫描结果",
+    "riskAssessment": "风险评估",
+    "severity": "严重程度",
+    "cvssScore": "CVSS评分",
+    "category": "类别",
+    "description": "描述",
+    "remediation": "修复建议",
+    "sdkCount": "SDK数量",
+    "totalFindings": "发现项总数",
+    "riskLevel": "风险等级"
   }
 }

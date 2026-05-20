@@ -7,7 +7,8 @@
     "scans": "Scans",
     "reports": "Reports",
     "statistics": "Statistics",
-    "settings": "Settings"
+    "settings": "Settings",
+    "back": "Back"
   },
   "auth": {
     "username": "Username",
@@ -33,5 +34,37 @@
     "status": "Status",
     "riskScore": "Risk Score",
     "noScans": "No scans yet"
+  },
+  "scans": {
+    "title": "Scan Jobs",
+    "upload": "Upload File",
+    "uploadNew": "Upload New Scan",
+    "appName": "App Name",
+    "appVersion": "Version",
+    "platform": "Platform",
+    "selectFile": "Select File",
+    "dragUpload": "Drag and drop file here to upload",
+    "status": "Status",
+    "riskScore": "Risk Score",
+    "createdAt": "Created At",
+    "loadFailed": "Load failed",
+    "uploadSuccess": "Upload successful",
+    "uploadFailed": "Upload failed",
+    "deleteSuccess": "Deleted successfully",
+    "deleteFailed": "Delete failed",
+    "confirmDelete": "Confirm delete?",
+    "detailLoadFailed": "Failed to load details"
+  },
+  "results": {
+    "title": "Scan Results",
+    "riskAssessment": "Risk Assessment",
+    "severity": "Severity",
+    "cvssScore": "CVSS Score",
+    "category": "Category",
+    "description": "Description",
+    "remediation": "Remediation",
+    "sdkCount": "SDK Count",
+    "totalFindings": "Total Findings",
+    "riskLevel": "Risk Level"
   }
 }
