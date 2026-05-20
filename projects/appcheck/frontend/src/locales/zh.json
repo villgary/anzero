@@ -1,0 +1,37 @@
+{
+  "common": {
+    "appName": "AppScan Pro",
+    "login": "登录",
+    "logout": "退出",
+    "dashboard": "控制台",
+    "scans": "扫描任务",
+    "reports": "报表",
+    "statistics": "统计分析",
+    "settings": "设置"
+  },
+  "auth": {
+    "username": "用户名",
+    "password": "密码",
+    "loginButton": "登录",
+    "loginSuccess": "登录成功",
+    "loginFailed": "登录失败"
+  },
+  "dashboard": {
+    "title": "控制台",
+    "totalScans": "总扫描数",
+    "completedScans": "已完成",
+    "inProgressScans": "进行中",
+    "failedScans": "失败",
+    "recentScans": "最近扫描",
+    "riskDistribution": "风险分布"
+  },
+  "scan": {
+    "upload": "上传应用",
+    "appName": "应用名称",
+    "version": "版本",
+    "platform": "平台",
+    "status": "状态",
+    "riskScore": "风险评分",
+    "noScans": "暂无扫描记录"
+  }
+}

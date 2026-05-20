@@ -1,0 +1,37 @@
+{
+  "common": {
+    "appName": "AppScan Pro",
+    "login": "Login",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "scans": "Scans",
+    "reports": "Reports",
+    "statistics": "Statistics",
+    "settings": "Settings"
+  },
+  "auth": {
+    "username": "Username",
+    "password": "Password",
+    "loginButton": "Sign In",
+    "loginSuccess": "Login successful",
+    "loginFailed": "Login failed"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalScans": "Total Scans",
+    "completedScans": "Completed",
+    "inProgressScans": "In Progress",
+    "failedScans": "Failed",
+    "recentScans": "Recent Scans",
+    "riskDistribution": "Risk Distribution"
+  },
+  "scan": {
+    "upload": "Upload App",
+    "appName": "App Name",
+    "version": "Version",
+    "platform": "Platform",
+    "status": "Status",
+    "riskScore": "Risk Score",
+    "noScans": "No scans yet"
+  }
+}
