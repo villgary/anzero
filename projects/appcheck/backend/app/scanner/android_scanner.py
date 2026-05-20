@@ -19,16 +19,16 @@ class AndroidScanner:
         # Analyze APK
         a, d, dx = AnalyzeAPK(self.apk_path)
 
-        # Parse manifest
-        manifest = self.parser.parse(dx)
+        # Parse manifest - needs APK object
+        manifest = self.parser.parse(a)
 
         # Analyze permissions
         permission_findings = self.permission_analyzer.analyze(manifest["permissions"])
 
-        # Run security checks
-        security_findings = self.security_checker.run_checks(dx)
+        # Run security checks - needs APK object
+        security_findings = self.security_checker.run_checks(a)
 
-        # Detect SDKs
+        # Detect SDKs - needs Analysis object
         sdk_info = self.sdk_detector.detect(dx)
 
         # Combine findings

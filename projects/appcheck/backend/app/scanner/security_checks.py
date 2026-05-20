@@ -2,47 +2,43 @@ from typing import List, Dict
 
 
 class SecurityChecker:
-    def run_checks(self, analysis) -> List[Dict]:
+    def run_checks(self, apk) -> List[Dict]:
         findings = []
 
-        apk = analysis.get_apk()
-
         # Check 1: Debuggable flag
-        if apk.is_debuggable():
-            findings.append({
-                "category": "code_quality",
-                "severity": "medium",
-                "title": "Debuggable Application",
-                "description": "Application has android:debuggable=true",
-                "cvss_score": 5.0,
-                "remediation": "Set android:debuggable=false in manifest",
-            })
-
-        # Check 2: allowBackup flag (need to check manifest)
         try:
-            manifest = apk.get_android_manifest_xml()
-            if manifest is not None:
-                app_elem = manifest.find("application")
-                if app_elem is not None:
-                    allow_backup = app_elem.get("{http://schemas.android.com/apk/res/android}allowBackup")
-                    if allow_backup is None or allow_backup.lower() != "false":
-                        pass  # default is true, which is potentially risky
-                    else:
-                        findings.append({
-                            "category": "data_storage",
-                            "severity": "low",
-                            "title": "Backup Disabled",
-                            "description": "android:allowBackup=false - app data cannot be backed up",
-                            "cvss_score": 2.0,
-                            "remediation": "Consider enabling backup if no sensitive data",
-                        })
+            debuggable = apk.get_attribute_value("application", "debuggable")
+            if debuggable == "true":
+                findings.append({
+                    "category": "code_quality",
+                    "severity": "medium",
+                    "title": "Debuggable Application",
+                    "description": "Application has android:debuggable=true",
+                    "cvss_score": 5.0,
+                    "remediation": "Set android:debuggable=false in manifest",
+                })
+        except Exception:
+            pass
+
+        # Check 2: allowBackup flag
+        try:
+            allow_backup = apk.get_attribute_value("application", "allowBackup")
+            if allow_backup == "false":
+                findings.append({
+                    "category": "data_storage",
+                    "severity": "low",
+                    "title": "Backup Disabled",
+                    "description": "android:allowBackup=false - app data cannot be backed up",
+                    "cvss_score": 2.0,
+                    "remediation": "Consider enabling backup if no sensitive data",
+                })
         except Exception:
             pass
 
         # Check 3: TestOnly flag
         try:
-            test_only = apk.get_attribute("application", "testOnly")
-            if test_only:
+            test_only = apk.get_attribute_value("application", "testOnly")
+            if test_only == "true":
                 findings.append({
                     "category": "code_quality",
                     "severity": "medium",
@@ -56,7 +52,7 @@ class SecurityChecker:
 
         # Check 4: Cleartext traffic
         try:
-            uses_cleartext = apk.get_attribute("application", "usesCleartextTraffic")
+            uses_cleartext = apk.get_attribute_value("application", "usesCleartextTraffic")
             if uses_cleartext == "true":
                 findings.append({
                     "category": "network",
@@ -71,7 +67,7 @@ class SecurityChecker:
 
         # Check 5: Network security config
         try:
-            network_sec = apk.get_attribute("application", "networkSecurityConfig")
+            network_sec = apk.get_attribute_value("application", "networkSecurityConfig")
             if not network_sec:
                 findings.append({
                     "category": "network",
