@@ -100,6 +100,23 @@ export default function ScanDetailPage() {
         </Col>
       </Row>
 
+      <Card title={t('fileInfo.title')} style={{ marginBottom: 16 }}>
+        <Row gutter={16}>
+          <Col span={6}>
+            <Statistic title={t('fileInfo.fileSize')} value={scan?.file_size ? `${(scan.file_size / 1024 / 1024).toFixed(2)} MB` : '-'} />
+          </Col>
+          <Col span={6}>
+            <Statistic title={t('fileInfo.md5')} value={scan?.file_md5 ? `${scan.file_md5.substring(0, 16)}...` : '-'} />
+          </Col>
+          <Col span={6}>
+            <Statistic title={t('fileInfo.appVersion')} value={scan?.app_version || '-'} />
+          </Col>
+          <Col span={6}>
+            <Statistic title={t('fileInfo.createdAt')} value={scan?.created_at ? new Date(scan.created_at).toLocaleString() : '-'} />
+          </Col>
+        </Row>
+      </Card>
+
       <Card title={t('results.riskAssessment')} style={{ marginBottom: 16 }}>
         <Row gutter={16}>
           <Col span={12}>

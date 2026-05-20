@@ -66,5 +66,12 @@
     "sdkCount": "SDK数量",
     "totalFindings": "发现项总数",
     "riskLevel": "风险等级"
+  },
+  "fileInfo": {
+    "title": "文件信息",
+    "fileSize": "文件大小",
+    "md5": "MD5哈希",
+    "appVersion": "应用版本",
+    "createdAt": "扫描时间"
   }
 }

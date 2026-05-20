@@ -66,5 +66,12 @@
     "sdkCount": "SDK Count",
     "totalFindings": "Total Findings",
     "riskLevel": "Risk Level"
+  },
+  "fileInfo": {
+    "title": "File Information",
+    "fileSize": "File Size",
+    "md5": "MD5 Hash",
+    "appVersion": "App Version",
+    "createdAt": "Scan Time"
   }
 }
