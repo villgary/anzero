@@ -1,30 +1,73 @@
-import { Button, Form, Input } from 'antd'
+import { useState } from 'react'
+import { Form, Input, Button, Card, message } from 'antd'
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '../store/auth'
 
-function LoginPage() {
-  const { login } = useAuthStore()
+export default function LoginPage() {
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  const { t } = useTranslation()
+  const login = useAuthStore((state) => state.login)
 
   const onFinish = async (values: { username: string; password: string }) => {
-    await login(values.username, values.password)
+    setLoading(true)
+    try {
+      await login(values.username, values.password)
+      message.success(t('auth.loginSuccess'))
+      navigate('/dashboard')
+    } catch {
+      message.error(t('auth.loginFailed'))
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Form onFinish={onFinish} style={{ width: 300 }}>
-        <Form.Item name="username" rules={[{ required: true }]}>
-          <Input placeholder="Username" />
-        </Form.Item>
-        <Form.Item name="password" rules={[{ required: true }]}>
-          <Input.Password placeholder="Password" />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" block>
-            Login
-          </Button>
-        </Form.Item>
-      </Form>
+    <div style={{
+      height: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: '#f0f2f5'
+    }}>
+      <Card style={{ width: 400 }}>
+        <h1 style={{ textAlign: 'center', marginBottom: 24 }}>
+          {t('common.appName')}
+        </h1>
+        <Form
+          name="login"
+          onFinish={onFinish}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="username"
+            rules={[{ required: true, message: 'Please input your username!' }]}
+          >
+            <Input
+              prefix={<UserOutlined />}
+              placeholder={t('auth.username')}
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder={t('auth.password')}
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" loading={loading} block size="large">
+              {t('auth.loginButton')}
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
     </div>
   )
 }
-
-export default LoginPage
