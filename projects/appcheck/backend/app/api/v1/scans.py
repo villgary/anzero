@@ -102,8 +102,10 @@ async def upload_file(
                     category=finding["category"],
                     severity=SeverityEnum[severity.upper()],
                     cvss_score=finding["cvss_score"],
+                    cwe_id=finding.get("cwe_id"),
                     title=finding["title"],
                     description=finding.get("description", ""),
+                    details=finding.get("details"),
                     remediation=finding.get("remediation", ""),
                 )
                 db.add(scan_result)
