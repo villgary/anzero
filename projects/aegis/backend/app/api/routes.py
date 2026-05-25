@@ -1,9 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, WebSocket, WebSocketDisconnect
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException, WebSocket, WebSocketDisconnect
+from pydantic import BaseModel, field_validator
 import asyncio
 import json
-from sqlalchemy.orm import Session
-from app.api.deps import get_db
 from app.detection_engine.d25.fusion_engine import FusionEngine
 
 router = APIRouter()
@@ -13,6 +11,21 @@ fusion_engine = FusionEngine()
 class DetectRequest(BaseModel):
     signals: list[float]
     context: dict
+
+    @field_validator("signals")
+    @classmethod
+    def signals_must_not_be_empty(cls, v):
+        if not v:
+            raise ValueError("signals must not be empty")
+        return v
+
+    @field_validator("signals")
+    @classmethod
+    def signals_must_be_valid_floats(cls, v):
+        for i, sig in enumerate(v):
+            if not isinstance(sig, (int, float)) or (isinstance(sig, float) and (sig != sig)):  # NaN check
+                raise ValueError(f"signals[{i}] must be a valid number, got {sig!r}")
+        return v
 
 
 class DetectResponse(BaseModel):
@@ -44,7 +57,7 @@ async def alert_stream(ws: WebSocket):
         pass  # Client disconnected gracefully
 
 @router.get("/api/v1/dashboard/stats")
-async def get_dashboard_stats(db: Session = Depends(get_db)):
+async def get_dashboard_stats():
     return {
         "attackCount": 127,
         "mttd": "2.3min",
@@ -53,7 +66,7 @@ async def get_dashboard_stats(db: Session = Depends(get_db)):
     }
 
 @router.post("/api/v1/detect", response_model=DetectResponse)
-async def detect_event(request: DetectRequest, db: Session = Depends(get_db)):
+async def detect_event(request: DetectRequest):
     try:
         result = fusion_engine.score(request.signals, request.context)
         return DetectResponse(confidence=result.score, level=result.level)

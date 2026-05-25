@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import patch
 from fastapi.testclient import TestClient
 from app.main import app
 
@@ -85,3 +86,24 @@ def test_detect_invalid_signal_element():
         "context": {"asset_type": "web"}
     })
     assert response.status_code == 422
+
+
+def test_detect_empty_signals():
+    """Test that empty signals list returns 422 validation error."""
+    response = client.post("/api/v1/detect", json={
+        "signals": [],
+        "context": {"asset_type": "web"}
+    })
+    assert response.status_code == 422
+
+
+def test_detect_returns_error_on_exception():
+    """Test that exception in FusionEngine returns 500 error."""
+    with patch("app.api.routes.fusion_engine") as mock_engine:
+        mock_engine.score.side_effect = RuntimeError("FusionEngine failed")
+        response = client.post("/api/v1/detect", json={
+            "signals": [0.5] * 35,
+            "context": {"asset_type": "web"}
+        })
+        assert response.status_code == 500
+        assert "FusionEngine failed" in response.json()["detail"]
