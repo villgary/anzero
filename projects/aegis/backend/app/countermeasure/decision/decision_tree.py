@@ -1,12 +1,5 @@
 from dataclasses import dataclass
-from enum import Enum
 from typing import Optional
-
-
-class ResponseLevel(Enum):
-    GREEN = "green"
-    YELLOW = "yellow"
-    RED = "red"
 
 
 @dataclass
@@ -18,7 +11,9 @@ class CountermeasureDecision:
 
 
 class DecisionTree:
-    def decide(self, confidence: float, attack_type: str) -> CountermeasureDecision:
+    def decide(self, confidence: float, _attack_type: str) -> CountermeasureDecision:
+        if confidence < 0 or confidence > 1:
+            raise ValueError("confidence must be between 0 and 1")
         if confidence < 0.30:
             return CountermeasureDecision("observe", False, None, [])
         elif confidence < 0.60:
