@@ -14,6 +14,11 @@ class FusionEngine:
         "L1": 0.15, "L2": 0.25, "L3": 0.15, "L4": 0.20, "L5": 0.15
     }
 
+    # Level thresholds for threat response levels
+    THRESHOLD_OBSERVE = 0.30
+    THRESHOLD_INVESTIGATE = 0.60
+    THRESHOLD_RESPOND = 0.85
+
     def __init__(self):
         # 29-element weight array based on layer assignments:
         # L1 (0-5): 0.15, L2 (6-11): 0.25, L3 (12-14): 0.15
@@ -27,12 +32,12 @@ class FusionEngine:
             0.15, 0.15, 0.15                         # L5: D-22 to D-24
         ])
 
-    def score(self, signals: List[float], context: dict) -> ConfidenceResult:
+    def score(self, signals: List[float], _context: dict) -> ConfidenceResult:
         signals_array = np.array(signals[:29])
 
         # Weighted fusion of 29 detection signals using layer-based weights
         weighted = np.dot(signals_array, self.weights)
-        calibrated = self._platt_scaling(weighted)
+        calibrated = self._clamp_score(weighted)
 
         level = self._map_to_level(calibrated)
         explanation = self._generate_explanation(signals, calibrated)
@@ -44,24 +49,14 @@ class FusionEngine:
             explanation=explanation
         )
 
-    def _platt_scaling(self, raw: float) -> float:
+    def _clamp_score(self, raw: float) -> float:
         return min(1.0, max(0.0, raw))
 
     def _map_to_level(self, score: float) -> str:
-        if score < 0.30: return "observe"
-        if score < 0.60: return "investigate"
-        if score < 0.85: return "respond"
+        if score < self.THRESHOLD_OBSERVE: return "observe"
+        if score < self.THRESHOLD_INVESTIGATE: return "investigate"
+        if score < self.THRESHOLD_RESPOND: return "respond"
         return "emergency"
-
-    def _encode_context(self, context: dict) -> np.ndarray:
-        return np.array([
-            context.get("hour_of_day", 0) / 24.0,
-            context.get("day_of_week", 0) / 7.0,
-            min(context.get("source_ip_count", 0), 10) / 10.0,
-            1.0 if context.get("asset_type") == "web" else 0.0,
-            1.0 if context.get("asset_type") == "api" else 0.0,
-            1.0 if context.get("asset_type") == "db" else 0.0,
-        ])
 
     def _generate_explanation(self, signals: List[float], score: float) -> str:
         top_signals = sorted(enumerate(signals[:29]), key=lambda x: x[1], reverse=True)[:3]
