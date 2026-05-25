@@ -2,6 +2,8 @@ import numpy as np
 from dataclasses import dataclass
 from typing import List, Dict
 
+from app.detection_engine.d25.lightgbm_model import LightGBMModel
+
 @dataclass
 class ConfidenceResult:
     score: float
@@ -202,54 +204,3 @@ class FusionEngine:
             breakdown=breakdown,
             explanation=explanation,
         )
-
-
-class LightGBMModel:
-    """
-    LightGBM model wrapper for D-25 fusion engine.
-
-    This is a mock implementation. In production, this would load
-    and run inference with a pre-trained LightGBM model.
-    """
-
-    def __init__(self, model_path: str = None):
-        self.model_path = model_path
-        self.model = None
-        self._load_model()
-
-    def _load_model(self):
-        """Load pre-trained LightGBM model (mock implementation)."""
-        # In production: self.model = lgb.Booster(model_file=self.model_path)
-        self.model = "mock_model"
-
-    def predict(self, features: np.ndarray) -> np.ndarray:
-        """
-        Run inference with LightGBM model.
-
-        Args:
-            features: numpy array of shape (n_samples, n_features)
-
-        Returns:
-            Predictions array of shape (n_samples,)
-        """
-        # Mock implementation: return weighted average
-        # In production: return self.model.predict(features)
-        if isinstance(features, list):
-            features = np.array(features)
-        if features.ndim == 1:
-            features = features.reshape(1, -1)
-
-        # Simple weighted sum as mock prediction
-        weights = np.ones(features.shape[1]) / features.shape[1]
-        return np.dot(features, weights)
-
-    def predict_proba(self, features: np.ndarray) -> np.ndarray:
-        """
-        Run probability prediction with LightGBM model.
-
-        Returns:
-            Probability array of shape (n_samples, n_classes)
-        """
-        # Mock implementation
-        pred = self.predict(features)
-        return np.column_stack([1 - pred, pred])

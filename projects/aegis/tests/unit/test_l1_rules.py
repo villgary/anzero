@@ -68,8 +68,19 @@ async def test_d02_ai_tool_pentestgpt(d02):
 
 
 @pytest.mark.asyncio
-async def test_d03_react_pattern(d03):
+async def test_d03_bot_regular_timing(d03):
+    """Bot with fixed delays has regular timing (low stdev) - should NOT match AI think-burst"""
     event = {"intervals": [10, 12, 11, 13, 10, 12, 11]}
+    result = await d03.detect(event)
+    assert result.matched is False
+    assert result.metadata["react_pattern"] is False
+
+
+@pytest.mark.asyncio
+async def test_d03_ai_think_burst(d03):
+    """AI think-burst pattern: bursts with 5-30s pauses = irregular timing (high stdev)"""
+    # Burst pattern: short gaps within bursts + long pauses for LLM inference
+    event = {"intervals": [1, 9, 28, 2, 18, 30, 5, 14, 27, 3]}
     result = await d03.detect(event)
     assert result.matched is True
     assert result.metadata["react_pattern"] is True

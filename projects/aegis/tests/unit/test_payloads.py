@@ -22,3 +22,12 @@ def test_select_payload_exacts_match(library):
     assert payload is not None
     assert "json" in payload.target_types  # Should match json, not fallback to html
     assert payload.id == "pi-002"
+
+def test_select_payload_fallback_to_first(library):
+    """When no target_type matches, select_payload returns first template"""
+    payload = library.select_payload("pi_injection", "nonexistent")
+    assert payload is not None
+    assert payload.id == "pi-001"  # First template as fallback
+
+def test_get_templates_invalid_category(library):
+    assert library.get_templates("invalid") == []

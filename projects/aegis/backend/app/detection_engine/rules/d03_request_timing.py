@@ -19,7 +19,7 @@ class D03RequestTiming(BaseRule):
         mean_interval = statistics.mean(intervals)
         stdev_interval = statistics.stdev(intervals) if len(intervals) > 1 else 0
 
-        react_pattern = (5 <= mean_interval <= 30) and (stdev_interval < 10)
+        react_pattern = (5 <= mean_interval <= 30) and (stdev_interval >= 10)
 
         return DetectionResult(
             rule_id=self.rule_id,
