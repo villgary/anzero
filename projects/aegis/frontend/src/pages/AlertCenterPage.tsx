@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
-import { AlertList } from '../components/alerts/AlertList'
-import { api } from '../api/client'
+import { AlertList, Alert } from '../components/alerts/AlertList'
 
 export function AlertCenterPage() {
-  const [alerts, setAlerts] = useState([])
+  const [alerts, setAlerts] = useState<Alert[]>([])
   const [connected, setConnected] = useState(false)
 
   useEffect(() => {

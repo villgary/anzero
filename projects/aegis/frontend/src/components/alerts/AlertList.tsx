@@ -1,14 +1,14 @@
 import { Tag } from 'antd'
 
-interface Alert {
+const priorityColors = { P0: 'red', P1: 'orange', P2: 'yellow', P3: 'blue' }
+
+export interface Alert {
   id: string
   priority: 'P0' | 'P1' | 'P2' | 'P3'
   confidence: number
   tool: string
   time: string
 }
-
-const priorityColors = { P0: 'red', P1: 'orange', P2: 'yellow', P3: 'blue' }
 
 export function AlertList({ alerts }: { alerts: Alert[] }) {
   return (

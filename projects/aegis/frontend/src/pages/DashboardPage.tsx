@@ -17,7 +17,7 @@ export function DashboardPage() {
   useEffect(() => {
     api.get('/dashboard/stats')
       .then(res => setStats(res.data))
-      .catch(err => setError('Failed to load dashboard data'))
+      .catch(() => setError('Failed to load dashboard data'))
   }, [])
 
   if (error) return <div className="text-red-400 p-6">{error}</div>
