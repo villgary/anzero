@@ -35,4 +35,4 @@ class PayloadLibrary:
         for t in templates:
             if target_type in t.target_types:
                 return t
-        return templates[0] if templates else None
+        return None
