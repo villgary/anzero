@@ -7,8 +7,18 @@ services:
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
   postgres:
     image: postgres:16-alpine
     ports:
@@ -16,11 +26,36 @@ services:
     environment:
       POSTGRES_DB: aegis
       POSTGRES_PASSWORD: aegis
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   redis:
     image: redis:7-alpine
     ports:
       - "6379:6379"
-  flink:
-    image: flink:1.18
+    volumes:
+      - redis_data:/data
+
+  backend:
+    build: ../backend
     ports:
-      - "8081:8081"
+      - "8080:8080"
+    environment:
+      DATABASE_URL: postgresql://aegis:aegis@postgres:5432/aegis
+      REDIS_URL: redis://redis:6379
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - kafka
+      - postgres
+      - redis
+
+  frontend:
+    build: ../frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  redis_data:
