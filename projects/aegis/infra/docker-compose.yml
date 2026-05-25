@@ -2,6 +2,7 @@ version: '3.8'
 services:
   kafka:
     image: confluentinc/cp-kafka:7.6.0
+    restart: unless-stopped
     ports:
       - "9092:9092"
     environment:
@@ -14,6 +15,7 @@ services:
 
   zookeeper:
     image: confluentinc/cp-zookeeper:7.6.0
+    restart: unless-stopped
     ports:
       - "2181:2181"
     environment:
@@ -21,16 +23,18 @@ services:
 
   postgres:
     image: postgres:16-alpine
+    restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: aegis
-      POSTGRES_PASSWORD: aegis
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-aegis}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   redis:
     image: redis:7-alpine
+    restart: unless-stopped
     ports:
       - "6379:6379"
     volumes:
@@ -38,10 +42,11 @@ services:
 
   backend:
     build: ../backend
+    restart: unless-stopped
     ports:
       - "8080:8080"
     environment:
-      DATABASE_URL: postgresql://aegis:aegis@postgres:5432/aegis
+      DATABASE_URL: postgresql://aegis:${POSTGRES_PASSWORD:-aegis}@postgres:5432/aegis
       REDIS_URL: redis://redis:6379
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
@@ -51,6 +56,7 @@ services:
 
   frontend:
     build: ../frontend
+    restart: unless-stopped
     ports:
       - "80:80"
     depends_on:
