@@ -17,7 +17,7 @@ vi.mock('../../src/api/client', () => ({
 test('renders metric cards', async () => {
   render(<DashboardPage />)
   await waitFor(() => {
-    expect(screen.getByText('本月攻击')).toBeInTheDocument()
+    expect(screen.getByText('Attack Count')).toBeInTheDocument()
   })
   expect(screen.getByText('MTTD')).toBeInTheDocument()
 })

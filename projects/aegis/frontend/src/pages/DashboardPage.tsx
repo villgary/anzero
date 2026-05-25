@@ -26,10 +26,10 @@ export function DashboardPage() {
   return (
     <div className="p-6 bg-gray-900 min-h-screen">
       <div className="grid grid-cols-4 gap-4 mb-6">
-        <MetricCard title="本月攻击" value={stats.attackCount} />
+        <MetricCard title="Attack Count" value={stats.attackCount} />
         <MetricCard title="MTTD" value={stats.mttd} />
-        <MetricCard title="反制率" value={`${stats.counterRate}%`} />
-        <MetricCard title="威胁等级" value={stats.threatLevel} />
+        <MetricCard title="Counter Rate" value={`${stats.counterRate}%`} />
+        <MetricCard title="Threat Level" value={stats.threatLevel} />
       </div>
       <AttackTrendChart />
     </div>
