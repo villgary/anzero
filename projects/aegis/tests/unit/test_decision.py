@@ -14,7 +14,7 @@ def workflow():
 
 
 def test_green_automatic_execution(tree):
-    decision = tree.decide(0.45, "scan")
+    decision = tree.decide(0.45)
     assert decision.level == ResponseLevel.GREEN
     assert decision.approval_required is False
     assert decision.approver is None
@@ -22,7 +22,7 @@ def test_green_automatic_execution(tree):
 
 
 def test_red_requires_ciso_approval(tree):
-    decision = tree.decide(0.92, "rce")
+    decision = tree.decide(0.92)
     assert decision.level == ResponseLevel.RED
     assert decision.approval_required is True
     assert decision.approver == "ciso"
@@ -30,14 +30,14 @@ def test_red_requires_ciso_approval(tree):
 
 
 def test_observe_level(tree):
-    decision = tree.decide(0.15, "scan")
-    assert decision.level == ResponseLevel.GREEN  # Using GREEN as placeholder
+    decision = tree.decide(0.15)
+    assert decision.level == ResponseLevel.OBSERVE
     assert decision.approval_required is False
     assert decision.countermeasures == []
 
 
 def test_yellow_requires_soc_approval(tree):
-    decision = tree.decide(0.70, "scan")
+    decision = tree.decide(0.70)
     assert decision.level == ResponseLevel.YELLOW
     assert decision.approval_required is True
     assert decision.approver == "soc"
@@ -45,79 +45,79 @@ def test_yellow_requires_soc_approval(tree):
 
 
 def test_boundary_30_observe(tree):
-    decision = tree.decide(0.30, "scan")
+    decision = tree.decide(0.30)
     assert decision.level == ResponseLevel.GREEN
     assert decision.approval_required is False
     assert decision.countermeasures == ["C-01", "C-04"]
 
 
 def test_boundary_60_green(tree):
-    decision = tree.decide(0.59, "scan")
+    decision = tree.decide(0.59)
     assert decision.level == ResponseLevel.GREEN
     assert decision.approval_required is False
     assert decision.countermeasures == ["C-01", "C-04"]
 
 
 def test_boundary_85_yellow(tree):
-    decision = tree.decide(0.85, "scan")
+    decision = tree.decide(0.85)
     assert decision.level == ResponseLevel.RED
 
 
 def test_invalid_confidence_negative(tree):
     with pytest.raises(ValueError):
-        tree.decide(-0.1, "scan")
+        tree.decide(-0.1)
 
 
 def test_invalid_confidence_over_1(tree):
     with pytest.raises(ValueError):
-        tree.decide(1.1, "scan")
+        tree.decide(1.1)
 
 
 # ApprovalWorkflow tests
 
 def test_request_approval_returns_id(workflow, tree):
-    decision = tree.decide(0.70, "scan")  # YELLOW level
+    decision = tree.decide(0.70)  # YELLOW level
     approval_id = workflow.request_approval(decision, "analyst1")
     assert approval_id is not None
     assert len(approval_id) == 8
 
 
 def test_request_approval_no_approval_required(workflow, tree):
-    decision = tree.decide(0.45, "scan")  # GREEN level, no approval
+    decision = tree.decide(0.45)  # GREEN level, no approval
     with pytest.raises(ValueError):
         workflow.request_approval(decision, "analyst1")
 
 
 def test_approve_success(workflow, tree):
-    decision = tree.decide(0.70, "scan")  # YELLOW level
+    decision = tree.decide(0.70)  # YELLOW level
     approval_id = workflow.request_approval(decision, "analyst1")
     result = workflow.approve(approval_id, "soc")
     assert result is True
 
 
 def test_approve_wrong_approver(workflow, tree):
-    decision = tree.decide(0.70, "scan")  # YELLOW level
+    decision = tree.decide(0.70)  # YELLOW level
     approval_id = workflow.request_approval(decision, "analyst1")
     result = workflow.approve(approval_id, "ciso")  # Wrong role
     assert result is False
 
 
 def test_reject_success(workflow, tree):
-    decision = tree.decide(0.70, "scan")  # YELLOW level
+    decision = tree.decide(0.70)  # YELLOW level
     approval_id = workflow.request_approval(decision, "analyst1")
     result = workflow.reject(approval_id, "soc", "Not enough evidence")
     assert result is True
 
 
 def test_reject_wrong_approver(workflow, tree):
-    decision = tree.decide(0.70, "scan")  # YELLOW level
+    decision = tree.decide(0.70)  # YELLOW level
     approval_id = workflow.request_approval(decision, "analyst1")
     result = workflow.reject(approval_id, "ciso", "Too risky")
     assert result is False
 
 
 def test_get_status_pending(workflow, tree):
-    decision = tree.decide(0.70, "scan")  # YELLOW level
+    decision = tree.decide(0.70)  # YELLOW level
     approval_id = workflow.request_approval(decision, "analyst1")
     status = workflow.get_status(approval_id)
     assert status["approval_id"] == approval_id
@@ -127,7 +127,7 @@ def test_get_status_pending(workflow, tree):
 
 
 def test_get_status_after_approval(workflow, tree):
-    decision = tree.decide(0.70, "scan")
+    decision = tree.decide(0.70)
     approval_id = workflow.request_approval(decision, "analyst1")
     workflow.approve(approval_id, "soc")
     status = workflow.get_status(approval_id)
@@ -136,7 +136,7 @@ def test_get_status_after_approval(workflow, tree):
 
 
 def test_get_status_after_rejection(workflow, tree):
-    decision = tree.decide(0.70, "scan")
+    decision = tree.decide(0.70)
     approval_id = workflow.request_approval(decision, "analyst1")
     workflow.reject(approval_id, "soc", "Insufficient data")
     status = workflow.get_status(approval_id)
@@ -150,7 +150,7 @@ def test_get_status_not_found(workflow):
 
 
 def test_red_approval_requires_ciso(workflow, tree):
-    decision = tree.decide(0.92, "rce")  # RED level
+    decision = tree.decide(0.92)  # RED level
     approval_id = workflow.request_approval(decision, "analyst1")
     # soc cannot approve red
     result = workflow.approve(approval_id, "soc")

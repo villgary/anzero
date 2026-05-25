@@ -4,9 +4,10 @@ from typing import Optional
 
 
 class ResponseLevel(Enum):
-    GREEN = "green"   # 自动执行
-    YELLOW = "yellow" # 需SOC审批
-    RED = "red"       # 需CISO审批
+    OBSERVE = "observe"  # 观察，不执行任何动作
+    GREEN = "green"      # 自动执行
+    YELLOW = "yellow"     # 需SOC审批
+    RED = "red"           # 需CISO审批
 
 
 @dataclass
@@ -18,14 +19,14 @@ class CountermeasureDecision:
 
 
 class DecisionTree:
-    def decide(self, confidence: float, _attack_type: str) -> CountermeasureDecision:
+    def decide(self, confidence: float) -> CountermeasureDecision:
         if confidence < 0 or confidence > 1:
             raise ValueError("confidence must be between 0 and 1")
 
         if confidence < 0.30:
             # observe - no action needed
             return CountermeasureDecision(
-                level=ResponseLevel.GREEN,  # Using GREEN as placeholder for observe
+                level=ResponseLevel.OBSERVE,
                 approval_required=False,
                 approver=None,
                 countermeasures=[]

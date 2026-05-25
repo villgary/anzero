@@ -26,6 +26,11 @@ class ApprovalRequest:
 
 
 class ApprovalWorkflow:
+    """In-memory approval workflow store.
+
+    TODO: Replace with persistent storage (database) for production use.
+          Approvals are currently lost on restart.
+    """
     def __init__(self):
         self._approvals: dict[str, ApprovalRequest] = {}
 
