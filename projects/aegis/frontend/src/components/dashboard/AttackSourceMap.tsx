@@ -4,28 +4,27 @@ interface AttackSourceMapProps {
   data?: {
     name: string
     value: number
-    coords: [number, number]
   }[]
 }
 
 export function AttackSourceMap({ data }: AttackSourceMapProps) {
-  // Default data for demo - major attack sources
+  // Default data for demo - top attack sources
   const defaultData = [
-    { name: 'Beijing', value: 350, coords: [116.4, 39.9] },
-    { name: 'Shanghai', value: 280, coords: [121.4, 31.2] },
-    { name: 'Shenzhen', value: 220, coords: [114.1, 22.5] },
-    { name: 'Hangzhou', value: 180, coords: [120.2, 30.3] },
-    { name: 'Chengdu', value: 150, coords: [104.1, 30.7] },
-    { name: 'US-East', value: 120, coords: [-73.9, 40.7] },
-    { name: 'Russia', value: 95, coords: [37.6, 55.8] },
-    { name: 'Germany', value: 75, coords: [13.4, 52.5] },
+    { name: 'Beijing', value: 350 },
+    { name: 'Shanghai', value: 280 },
+    { name: 'Shenzhen', value: 220 },
+    { name: 'Hangzhou', value: 180 },
+    { name: 'Chengdu', value: 150 },
+    { name: 'US-East', value: 120 },
+    { name: 'Russia', value: 95 },
+    { name: 'Germany', value: 75 },
   ]
 
   const chartData = data || defaultData
 
   const option = {
     title: {
-      text: 'Attack Source Geography',
+      text: 'Attack Source Distribution',
       textStyle: { color: '#fff', fontSize: 14 },
       left: 'center'
     },
@@ -33,64 +32,50 @@ export function AttackSourceMap({ data }: AttackSourceMapProps) {
       trigger: 'item',
       backgroundColor: 'rgba(31, 41, 55, 0.95)',
       borderColor: '#4b5563',
-      textStyle: { color: '#fff' },
-      formatter: (params: any) => `${params.data.name}: ${params.data.value} attacks`
+      textStyle: { color: '#fff' }
     },
-    geo: {
-      map: 'world',
-      roam: true,
-      scaleLimit: {
-        min: 1,
-        max: 10
+    xAxis: {
+      type: 'category',
+      data: chartData.map(item => item.name),
+      axisLabel: {
+        color: '#9ca3af',
+        rotate: 45
       },
-      zoom: 1.2,
-      center: [0, 20],
-      itemStyle: {
-        areaColor: '#1e3a5f',
-        borderColor: '#4b5563',
-        borderWidth: 1
-      },
-      emphasis: {
-        itemStyle: {
-          areaColor: '#2563eb'
-        },
-        label: {
-          show: false
-        }
-      },
-      nameMap: {
-        'China': 'China',
-        'United States': 'US'
+      axisLine: {
+        lineStyle: { color: '#4b5563' }
       }
+    },
+    yAxis: {
+      type: 'value',
+      axisLabel: { color: '#9ca3af' },
+      axisLine: { lineStyle: { color: '#4b5563' } },
+      splitLine: { lineStyle: { color: '#374151' } }
     },
     series: [
       {
         name: 'Attacks',
-        type: 'scatter',
-        coordinateSystem: 'geo',
-        data: chartData.map(item => ({
-          name: item.name,
-          value: [...item.coords, item.value]
-        })),
-        symbolSize: (val: number[]) => Math.sqrt(val[2]) * 2,
+        type: 'bar',
+        data: chartData.map(item => item.value),
         itemStyle: {
-          color: '#ef4444',
-          shadowBlur: 10,
-          shadowColor: 'rgba(239, 68, 68, 0.5)'
+          color: {
+            type: 'linear',
+            x: 0, y: 0, x2: 0, y2: 1,
+            colorStops: [
+              { offset: 0, color: '#ef4444' },
+              { offset: 1, color: '#991b1b' }
+            ]
+          },
+          borderRadius: [4, 4, 0, 0]
         },
-        label: {
-          show: false
-        },
-        emphasis: {
-          label: {
-            show: true,
-            position: 'right',
-            formatter: (params: any) => `${params.data.name}: ${params.data.value[2]}`,
-            color: '#fff'
-          }
-        }
+        barWidth: '60%'
       }
-    ]
+    ],
+    grid: {
+      left: 50,
+      right: 20,
+      bottom: 60,
+      top: 40
+    }
   }
 
   return (
