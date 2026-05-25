@@ -16,7 +16,7 @@ class D01TLSFingerprint(BaseRule):
 
         matched_tool = None
         for tool, fingerprints in KNOWN_TOOLS.items():
-            if ja4 in fingerprints:
+            if ja4 in fingerprints or ja3 in fingerprints:
                 matched_tool = tool
                 break
 

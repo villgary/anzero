@@ -1,8 +1,13 @@
 from .base import BaseRule, DetectionResult
 
-PYTHON_REQUESTS_PATTERNS = [
-    "python-requests",
-    "httpx",
+AI_TOOL_PATTERNS = [
+    "ChatGPT",
+    "Claude",
+    "PentestGPT",
+    "python-ai",
+    "gpt",
+    "OpenAI",
+    "Anthropic",
 ]
 
 class D02HTTPHeaders(BaseRule):
@@ -16,7 +21,7 @@ class D02HTTPHeaders(BaseRule):
         matched = False
         metadata = {}
 
-        for pattern in PYTHON_REQUESTS_PATTERNS:
+        for pattern in AI_TOOL_PATTERNS:
             if pattern.lower() in user_agent.lower():
                 matched = True
                 metadata = {"pattern": pattern, "user_agent": user_agent}

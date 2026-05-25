@@ -30,16 +30,41 @@ async def test_d01_match(d01):
 
 @pytest.mark.asyncio
 async def test_d01_no_match(d01):
-    event = {"ja4": "unknown", "ja3": "test"}
+    event = {"ja4": "unknown", "ja3": "unknown"}
     result = await d01.detect(event)
     assert result.matched is False
 
 
 @pytest.mark.asyncio
-async def test_d02_python_requests(d02):
-    event = {"headers": {"user-agent": "python-requests/2.28.0"}}
+async def test_d01_ja3_match(d01):
+    event = {"ja4": "unknown", "ja3": "t13d5f8g9h2"}
+    result = await d01.detect(event)
+    assert result.matched is True
+    assert result.rule_id == "D-01"
+
+
+@pytest.mark.asyncio
+async def test_d02_ai_tool_chatgpt(d02):
+    event = {"headers": {"user-agent": "ChatGPT/1.0"}}
     result = await d02.detect(event)
     assert result.matched is True
+    assert result.metadata["pattern"] == "ChatGPT"
+
+
+@pytest.mark.asyncio
+async def test_d02_ai_tool_claude(d02):
+    event = {"headers": {"user-agent": "Claude/1.0"}}
+    result = await d02.detect(event)
+    assert result.matched is True
+    assert result.metadata["pattern"] == "Claude"
+
+
+@pytest.mark.asyncio
+async def test_d02_ai_tool_pentestgpt(d02):
+    event = {"headers": {"user-agent": "PentestGPT/0.1"}}
+    result = await d02.detect(event)
+    assert result.matched is True
+    assert result.metadata["pattern"] == "PentestGPT"
 
 
 @pytest.mark.asyncio
