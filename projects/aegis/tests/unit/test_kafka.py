@@ -53,15 +53,15 @@ class TestKafkaProducer:
             mock_producer_instance.send_and_wait.assert_called_once_with("test-topic", {"event": "test"})
 
     @pytest.mark.asyncio
-    async def test_send_without_start_returns_false(self):
-        """Test send returns False when producer not started"""
+    async def test_send_without_start_raises_error(self):
+        """Test send raises error when producer not started"""
         producer = KafkaProducer(bootstrap_servers=["localhost:9092"])
-        result = await producer.send("test-topic", {"event": "test"})
-        assert result is False
+        with pytest.raises(RuntimeError, match="Producer not started"):
+            await producer.send("test-topic", {"event": "test"})
 
     @pytest.mark.asyncio
-    async def test_send_error_returns_false(self):
-        """Test send returns False on error"""
+    async def test_send_error_raises_exception(self):
+        """Test send raises exception on error"""
         producer = KafkaProducer(bootstrap_servers=["localhost:9092"])
         with patch("app.core.kafka_producer.AIOKafkaProducer") as mock_producer_class:
             mock_producer_instance = AsyncMock()
@@ -69,9 +69,8 @@ class TestKafkaProducer:
             mock_producer_class.return_value = mock_producer_instance
 
             await producer.start()
-            result = await producer.send("test-topic", {"event": "test"})
-
-            assert result is False
+            with pytest.raises(Exception, match="Kafka error"):
+                await producer.send("test-topic", {"event": "test"})
 
 
 class TestRedisClient:
