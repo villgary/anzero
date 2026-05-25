@@ -12,12 +12,16 @@ interface DashboardStats {
 
 export function DashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    api.get('/dashboard/stats').then(res => setStats(res.data))
+    api.get('/dashboard/stats')
+      .then(res => setStats(res.data))
+      .catch(err => setError('Failed to load dashboard data'))
   }, [])
 
-  if (!stats) return <div>Loading...</div>
+  if (error) return <div className="text-red-400 p-6">{error}</div>
+  if (!stats) return <div className="text-gray-400 p-6">Loading...</div>
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen">
@@ -25,7 +29,7 @@ export function DashboardPage() {
         <MetricCard title="本月攻击" value={stats.attackCount} />
         <MetricCard title="MTTD" value={stats.mttd} />
         <MetricCard title="反制率" value={`${stats.counterRate}%`} />
-        <MetricCard title="威胁等级" value={stats.threatLevel} color="red" />
+        <MetricCard title="威胁等级" value={stats.threatLevel} />
       </div>
       <AttackTrendChart />
     </div>

@@ -4,10 +4,9 @@ interface MetricCardProps {
   title: string
   value: string | number
   trend?: { value: number; direction: 'up' | 'down' }
-  color?: string
 }
 
-export function MetricCard({ title, value, trend, color }: MetricCardProps) {
+export function MetricCard({ title, value, trend }: MetricCardProps) {
   return (
     <Card className="bg-gray-800 border-gray-700">
       <div className="text-gray-400 text-sm">{title}</div>
