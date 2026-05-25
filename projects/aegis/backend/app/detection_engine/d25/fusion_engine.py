@@ -15,16 +15,23 @@ class FusionEngine:
     }
 
     def __init__(self):
-        self.weights = np.array([0.15, 0.25, 0.15, 0.20, 0.15, 0.10])
+        # 29-element weight array based on layer assignments:
+        # L1 (0-5): 0.15, L2 (6-11): 0.25, L3 (12-14): 0.15
+        # D-16 (15-20): 0.20, L4 (21-25): 0.20, L5 (26-28): 0.15
+        self.weights = np.array([
+            0.15, 0.15, 0.15, 0.15, 0.15, 0.15,  # L1: D-01 to D-06
+            0.25, 0.25, 0.25, 0.25, 0.25, 0.25,  # L2: D-07 to D-12
+            0.15, 0.15, 0.15,                       # L3: D-13 to D-15
+            0.20, 0.20, 0.20, 0.20, 0.20, 0.20,  # D-16 TP/RP/SH/XT/XP/PI
+            0.20, 0.20, 0.20, 0.20, 0.20,          # L4: D-17 to D-21
+            0.15, 0.15, 0.15                         # L5: D-22 to D-24
+        ])
 
     def score(self, signals: List[float], context: dict) -> ConfidenceResult:
         signals_array = np.array(signals[:29])
-        context_array = self._encode_context(context)
-        full_input = np.concatenate([signals_array, context_array])
 
-        # 简化的加权融合（实际生产用LightGBM模型）
-        # 使用context weights进行上下文感知的加权
-        weighted = np.dot(context_array, self.weights)
+        # Weighted fusion of 29 detection signals using layer-based weights
+        weighted = np.dot(signals_array, self.weights)
         calibrated = self._platt_scaling(weighted)
 
         level = self._map_to_level(calibrated)
