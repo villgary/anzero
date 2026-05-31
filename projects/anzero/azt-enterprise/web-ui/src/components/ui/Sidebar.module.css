@@ -1,7 +1,7 @@
 .sidebar {
   width: 220px;
-  background: #1a1a2e;
-  color: white;
+  background: var(--sidebar-bg);
+  color: #ffffff;
   padding: 16px;
   height: 100vh;
   position: fixed;
@@ -13,6 +13,7 @@
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 20px;
+  color: #ffffff;
 }
 
 .nav {
@@ -21,17 +22,20 @@
 }
 
 .navLink {
-  color: white;
+  color: #d1d5db;
   text-decoration: none;
   padding: 8px 12px;
   margin-bottom: 4px;
   border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .navLink:hover {
-  background: #16213e;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
 }
 
 .navLinkActive {
-  background: #16213e;
+  background: rgba(255, 255, 255, 0.15);
+  color: #ffffff;
 }

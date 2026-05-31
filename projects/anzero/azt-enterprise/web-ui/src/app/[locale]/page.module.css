@@ -1,5 +1,8 @@
 .dashboard h1 {
   margin-bottom: 24px;
+  color: var(--text-primary);
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .statsGrid {
@@ -14,22 +17,25 @@
 }
 
 .statCard {
-  background: white;
+  background: var(--card-bg);
   padding: 16px;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   flex: 1;
+  border: 1px solid var(--border-color);
 }
 
 .statTitle {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 12px;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .statValue {
   font-size: 28px;
   font-weight: bold;
+  color: var(--text-primary);
 }
 
 .danger .statValue {
@@ -37,7 +43,7 @@
 }
 
 .warning .statValue {
-  color: #ffc107;
+  color: #b45309;
 }
 
 .success .statValue {

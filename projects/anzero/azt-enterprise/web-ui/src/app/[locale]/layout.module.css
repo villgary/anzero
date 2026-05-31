@@ -10,6 +10,13 @@
   background: #f5f7fa;
 }
 
+@media (prefers-color-scheme: dark) {
+  .main {
+    background: #1a1a2e;
+    color: #ededed;
+  }
+}
+
 [dir="rtl"] .main {
   margin-left: 0;
   margin-right: 220px;
