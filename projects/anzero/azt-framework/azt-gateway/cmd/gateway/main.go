@@ -9,6 +9,7 @@ import (
     "github.com/anzero/azt-framework/azt-gateway/internal/audit"
     "github.com/anzero/azt-framework/azt-gateway/internal/grpc"
     "github.com/anzero/azt-framework/azt-gateway/internal/policy"
+    "github.com/anzero/azt-framework/azt-gateway/internal/shield"
     "github.com/anzero/azt-framework/azt-gateway/internal/trust"
     "github.com/jackc/pgx/v5/pgxpool"
     "go.uber.org/zap"
@@ -42,6 +43,7 @@ func main() {
     engine := policy.NewEngine()
     auditLogger := audit.NewLogger(logger)
     scorer := trust.NewScorer(store)
+    shieldInstance := shield.NewShield(logger)
 
     // Load policies if path provided
     if policyPath := os.Getenv("AZT_POLICY_PATH"); policyPath != "" {
@@ -50,7 +52,7 @@ func main() {
         }
     }
 
-    server := grpc.NewServer(*addr, logger, engine, auditLogger, scorer, store)
+    server := grpc.NewServer(*addr, logger, engine, auditLogger, scorer, store, shieldInstance)
     logger.Info(fmt.Sprintf("Starting AZT Gateway on %s", *addr))
     if err := server.Start(); err != nil {
         logger.Fatal("Failed to start server", zap.Error(err))

@@ -7,11 +7,14 @@ import (
 
     "github.com/anzero/azt-framework/azt-gateway/internal/audit"
     "github.com/anzero/azt-framework/azt-gateway/internal/policy"
+    "github.com/anzero/azt-framework/azt-gateway/internal/shield"
     "github.com/anzero/azt-framework/azt-gateway/internal/trust"
     v1 "github.com/anzero/azt-framework/proto/azt/v1"
     "go.uber.org/zap"
     "google.golang.org/grpc"
+    "google.golang.org/grpc/codes"
     "google.golang.org/grpc/reflection"
+    "google.golang.org/grpc/status"
 )
 
 // StoreReader defines the interface for reading and writing trust scores
@@ -33,10 +36,11 @@ type Server struct {
     audit  *audit.Logger
     scorer Scorer
     store  StoreReader
+    shield *shield.Shield
     v1.UnimplementedAZTGatewayServer
 }
 
-func NewServer(addr string, logger *zap.Logger, engine *policy.Engine, auditLogger *audit.Logger, scorer Scorer, store StoreReader) *Server {
+func NewServer(addr string, logger *zap.Logger, engine *policy.Engine, auditLogger *audit.Logger, scorer Scorer, store StoreReader, shield *shield.Shield) *Server {
     return &Server{
         addr:   addr,
         logger: logger,
@@ -44,6 +48,7 @@ func NewServer(addr string, logger *zap.Logger, engine *policy.Engine, auditLogg
         audit:  auditLogger,
         scorer: scorer,
         store:  store,
+        shield: shield,
     }
 }
 
@@ -134,6 +139,36 @@ func (s *Server) GetAgentScore(ctx context.Context, req *v1.GetAgentScoreRequest
     return s.UpdateTrustScore(ctx, &v1.UpdateTrustScoreRequest{
         AgentId: req.AgentId,
     })
+}
+
+func (s *Server) ThreatShieldScan(ctx context.Context, req *v1.ThreatShieldRequest) (*v1.ThreatShieldResponse, error) {
+    s.logger.Info("ThreatShieldScan request received",
+        zap.String("agent_id", req.AgentId),
+        zap.String("action", req.Action),
+        zap.String("tool", req.Tool),
+    )
+
+    input := &shield.ShieldInput{
+        AgentID:    req.AgentId,
+        Action:     req.Action,
+        Tool:       req.Tool,
+        Prompt:     req.Prompt,
+        Output:     req.Output,
+        TrustScore: int(req.TrustScore),
+        Timestamp:  req.Timestamp,
+    }
+
+    decision, err := s.shield.Evaluate(ctx, input)
+    if err != nil {
+        return nil, status.Errorf(codes.Internal, "shield evaluation failed: %v", err)
+    }
+
+    return &v1.ThreatShieldResponse{
+        Decision:      decision.Action,
+        SeverityScore: int32(decision.SeverityScore),
+        Indicators:    decision.Indicators,
+        Reason:       decision.Reason,
+    }, nil
 }
 
 func (s *Server) Start() error {

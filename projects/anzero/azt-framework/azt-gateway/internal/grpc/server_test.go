@@ -6,6 +6,7 @@ import (
 
 	"github.com/anzero/azt-framework/azt-gateway/internal/audit"
 	"github.com/anzero/azt-framework/azt-gateway/internal/policy"
+	"github.com/anzero/azt-framework/azt-gateway/internal/shield"
 	"github.com/anzero/azt-framework/azt-gateway/internal/trust"
 	v1 "github.com/anzero/azt-framework/proto/azt/v1"
 	"go.uber.org/zap"
@@ -56,7 +57,7 @@ func TestEnforce_AllowAll(t *testing.T) {
 	logger, _ := zap.NewDevelopment()
 	store := &minimalStore{scores: make(map[string]*trust.AgentScore)}
 	scorer := &minimalScorer{store: store}
-	server := NewServer("localhost:0", logger, policy.NewEngine(), audit.NewLogger(logger), scorer, store)
+	server := NewServer("localhost:0", logger, policy.NewEngine(), audit.NewLogger(logger), scorer, store, shield.NewShield(logger))
 
 	resp, err := server.Enforce(context.Background(), &v1.EnforcementRequest{
 		Context: &v1.ActionContext{
@@ -83,7 +84,7 @@ func TestGetTrustScore_Default(t *testing.T) {
 	logger, _ := zap.NewDevelopment()
 	store := &minimalStore{scores: make(map[string]*trust.AgentScore)}
 	scorer := &minimalScorer{store: store}
-	server := NewServer("localhost:0", logger, policy.NewEngine(), audit.NewLogger(logger), scorer, store)
+	server := NewServer("localhost:0", logger, policy.NewEngine(), audit.NewLogger(logger), scorer, store, shield.NewShield(logger))
 
 	resp, err := server.GetTrustScore(context.Background(), &v1.TrustScoreRequest{
 		AgentId: "test-agent",
