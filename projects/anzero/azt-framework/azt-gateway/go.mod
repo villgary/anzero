@@ -6,6 +6,7 @@ require (
 	github.com/anzero/azt-framework v0.0.0
 	go.uber.org/zap v1.26.0
 	google.golang.org/grpc v1.60.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
