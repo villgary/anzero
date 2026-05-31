@@ -1,0 +1,33 @@
+agent: email-agent-prod
+version: 1
+rules:
+  - name: allow-read-tools
+    effect: allow
+    tools:
+      - search
+      - lookup
+      - read
+      - get_email
+      - list_emails
+
+  - name: allow-compose
+    effect: allow
+    tools:
+      - compose_email
+      - draft_email
+
+  - name: deny-high-risk-tools-low-trust
+    effect: deny
+    tools:
+      - delete_email
+      - delete_user
+      - export_data
+    conditions:
+      - trust_score_below: 80
+
+  - name: require-approval-high-risk
+    effect: deny
+    actions:
+      - delete_data
+      - export_user_info
+      - modify_permissions
