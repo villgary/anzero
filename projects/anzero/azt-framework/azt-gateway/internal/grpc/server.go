@@ -14,17 +14,29 @@ import (
     "google.golang.org/grpc/reflection"
 )
 
+// StoreReader defines the interface for reading and writing trust scores
+type StoreReader interface {
+    GetScore(ctx context.Context, agentID string) (*trust.AgentScore, error)
+    UpsertScore(ctx context.Context, agentID string, score int, identityVerified bool, spiffeID string) error
+    AddHistory(ctx context.Context, agentID string, prevScore, newScore, delta int, factor, reason string, actionCtx map[string]interface{}) error
+}
+
+// Scorer defines the interface for evaluating trust factors
+type Scorer interface {
+    EvaluateAllFactors(ctx context.Context, agentID string, actionCtx map[string]interface{}) (int, trust.FactorBreakdown, []trust.FactorResult, error)
+}
+
 type Server struct {
     addr   string
     logger *zap.Logger
     engine *policy.Engine
     audit  *audit.Logger
-    scorer *trust.Scorer
-    store  *trust.Store
+    scorer Scorer
+    store  StoreReader
     v1.UnimplementedAZTGatewayServer
 }
 
-func NewServer(addr string, logger *zap.Logger, engine *policy.Engine, auditLogger *audit.Logger, scorer *trust.Scorer, store *trust.Store) *Server {
+func NewServer(addr string, logger *zap.Logger, engine *policy.Engine, auditLogger *audit.Logger, scorer Scorer, store StoreReader) *Server {
     return &Server{
         addr:   addr,
         logger: logger,
