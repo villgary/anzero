@@ -1,0 +1,16 @@
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  margin-left: 220px;
+  flex: 1;
+  padding: 24px;
+  background: #f5f7fa;
+}
+
+[dir="rtl"] .main {
+  margin-left: 0;
+  margin-right: 220px;
+}
