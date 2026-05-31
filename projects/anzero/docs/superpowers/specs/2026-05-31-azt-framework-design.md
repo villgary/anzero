@@ -174,6 +174,26 @@ Developer writes YAML policy
 - Non-technical users can view/understand, Git is source of truth
 - No separate policy database — operates on Git files
 
+### Internationalization (i18n)
+
+**Supported Languages**:
+| Language | Code | Direction |
+|----------|------|-----------|
+| English | `en` | LTR |
+| Chinese (Simplified) | `zh` | LTR |
+| Japanese | `ja` | LTR |
+| French | `fr` | LTR |
+| Arabic | `ar` | RTL |
+
+**i18n Architecture**:
+- All user-facing strings externalized to translation files (JSON format)
+- RTL support for Arabic via CSS logical properties and `dir` attribute
+- Language detection: browser preference → user setting → fallback to English
+- Number/date formatting via locale-aware libraries (Intl API)
+- Language switcher in UI header, persisted to user preferences
+
+**Translation Files**: `web-ui/src/locales/{en,zh,ja,fr,ar}.json`
+
 ---
 
 ## Data Flow: Action Enforcement
@@ -238,6 +258,13 @@ anzero/
 │
 ├── azt-enterprise/             # Proprietary enterprise app
 │   ├── web-ui/                 # React dashboard
+│   │   └── src/
+│   │       └── locales/        # i18n translation files
+│   │           ├── en.json
+│   │           ├── zh.json
+│   │           ├── ja.json
+│   │           ├── fr.json
+│   │           └── ar.json
 │   ├── api-server/             # Go REST API
 │   ├── multi-tenancy/          # Tenant isolation
 │   └── compliance/             # Compliance reports
@@ -273,6 +300,7 @@ anzero/
 
 ### Phase 4: Enterprise
 - Web UI for policy management
+- **i18n support** (English, Chinese, Japanese, French, Arabic with RTL)
 - Multi-tenancy
 - Compliance reporting
 - Human-in-the-loop approval workflow
