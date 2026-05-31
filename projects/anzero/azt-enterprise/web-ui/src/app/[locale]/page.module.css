@@ -8,6 +8,11 @@
   margin-bottom: 24px;
 }
 
+.widgets {
+  display: flex;
+  gap: 16px;
+}
+
 .statCard {
   background: white;
   padding: 16px;

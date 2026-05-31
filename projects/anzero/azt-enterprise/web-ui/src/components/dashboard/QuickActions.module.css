@@ -1,0 +1,40 @@
+.actions {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.actions h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.actions a {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  font-size: 14px;
+}
+
+.btnPrimary {
+  background: #007bff;
+}
+
+.btnSuccess {
+  background: #28a745;
+}
+
+.btnSecondary {
+  background: #6c757d;
+}
+
+.actions a:hover {
+  opacity: 0.9;
+}
