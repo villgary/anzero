@@ -1,9 +1,6 @@
 .editor {
-  background: var(--card-bg);
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  border: 1px solid var(--border-color);
 }
 
 .toolbar {
@@ -12,6 +9,7 @@
   align-items: center;
   padding: 12px 16px;
   border-bottom: 1px solid var(--border-color);
+  background: var(--card-bg);
 }
 
 .tabs {
@@ -22,7 +20,7 @@
 .tabs button {
   padding: 6px 16px;
   border: 1px solid var(--border-color);
-  background: var(--card-bg);
+  background: var(--background);
   border-radius: 4px;
   cursor: pointer;
   color: var(--text-primary);
@@ -50,7 +48,7 @@
 .visualPlaceholder {
   padding: 48px;
   text-align: center;
-  background: var(--background);
+  background: var(--card-bg);
 }
 
 .visualPlaceholder p {
@@ -70,4 +68,5 @@
   font-family: monospace;
   font-size: 14px;
   color: var(--text-primary);
+  background: var(--card-bg);
 }
