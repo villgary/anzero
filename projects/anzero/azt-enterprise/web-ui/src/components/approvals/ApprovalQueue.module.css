@@ -1,0 +1,85 @@
+.empty {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 48px;
+  text-align: center;
+  color: #666;
+}
+
+.queue {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.request {
+  padding: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.request:last-child {
+  border-bottom: none;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.agent {
+  font-weight: bold;
+}
+
+.time {
+  font-size: 12px;
+  color: #666;
+}
+
+.action {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.reason {
+  font-size: 13px;
+  color: #666;
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
+}
+
+.approveBtn {
+  flex: 1;
+  padding: 8px 16px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.denyBtn {
+  flex: 1;
+  padding: 8px 16px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.approveBtn:hover {
+  background: #218838;
+}
+
+.denyBtn:hover {
+  background: #c82333;
+}

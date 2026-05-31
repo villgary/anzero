@@ -1,0 +1,47 @@
+.page h1 {
+  margin-bottom: 16px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 16px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.detailGrid {
+  display: flex;
+  gap: 16px;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  flex: 1;
+}
+
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.stat {
+  margin-bottom: 8px;
+}
+
+.stat span {
+  font-weight: 500;
+  color: #666;
+}
+
+.factors {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

@@ -1,0 +1,28 @@
+replicaCount: 1
+
+image:
+  webui:
+    repository: azt-enterprise/web-ui
+    tag: latest
+    pullPolicy: IfNotPresent
+  api:
+    repository: azt-enterprise/api-server
+    tag: latest
+    pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: azt.example.com
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
