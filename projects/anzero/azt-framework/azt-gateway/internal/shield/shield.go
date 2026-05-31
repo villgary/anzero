@@ -15,6 +15,7 @@ func NewShield(logger *zap.Logger) *Shield {
 	analyzers := []Analyzer{
 		NewInjectorAnalyzer(nil),
 		NewExfiltrationAnalyzer(nil),
+		NewAbuseAnalyzer(nil),
 	}
 	aggregator := NewAggregator(80, 50)
 	return &Shield{
