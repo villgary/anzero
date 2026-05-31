@@ -2,19 +2,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useLocale } from 'next-intl';
 import styles from './Sidebar.module.css';
-
-const navItems = [
-  { href: '/', label: 'Dashboard' },
-  { href: '/policies', label: 'Policies' },
-  { href: '/agents', label: 'Agents' },
-  { href: '/alerts', label: 'Alerts' },
-  { href: '/approvals', label: 'Approvals' },
-  { href: '/settings', label: 'Settings' },
-];
 
 export function Sidebar() {
   const pathname = usePathname();
+  const locale = useLocale();
+
+  const navItems = [
+    { href: `/${locale}`, label: 'Dashboard' },
+    { href: `/${locale}/policies`, label: 'Policies' },
+    { href: `/${locale}/agents`, label: 'Agents' },
+    { href: `/${locale}/alerts`, label: 'Alerts' },
+    { href: `/${locale}/approvals`, label: 'Approvals' },
+    { href: `/${locale}/settings`, label: 'Settings' },
+  ];
 
   return (
     <aside className={styles.sidebar}>
