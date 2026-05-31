@@ -6,7 +6,7 @@ import (
 )
 
 func TestShield_Evaluate_NoThreats(t *testing.T) {
-	shield := NewShield(nil, nil, nil)
+	shield := NewShield(nil)
 	input := &ShieldInput{
 		AgentID: "test-agent",
 		Action:  "tool_call",

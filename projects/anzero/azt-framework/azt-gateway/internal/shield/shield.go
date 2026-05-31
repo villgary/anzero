@@ -11,7 +11,11 @@ type Shield struct {
 	logger     *zap.Logger
 }
 
-func NewShield(analyzers []Analyzer, aggregator *Aggregator, logger *zap.Logger) *Shield {
+func NewShield(logger *zap.Logger) *Shield {
+	analyzers := []Analyzer{
+		NewInjectorAnalyzer(nil),
+	}
+	aggregator := NewAggregator(80, 50)
 	return &Shield{
 		analyzers:  analyzers,
 		aggregator: aggregator,
