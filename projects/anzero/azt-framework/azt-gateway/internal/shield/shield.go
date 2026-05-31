@@ -5,10 +5,6 @@ import (
 	"go.uber.org/zap"
 )
 
-// Aggregator is a placeholder type that will be defined in Task 2
-// when the Severity Aggregator is implemented.
-type Aggregator struct{}
-
 type Shield struct {
 	analyzers  []Analyzer
 	aggregator *Aggregator
