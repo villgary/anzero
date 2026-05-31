@@ -44,6 +44,16 @@ class AZTGatewayStub(object):
                 request_serializer=proto_dot_azt__pb2.TrustScoreRequest.SerializeToString,
                 response_deserializer=proto_dot_azt__pb2.TrustScoreResponse.FromString,
                 _registered_method=True)
+        self.UpdateTrustScore = channel.unary_unary(
+                '/azt.v1.AZTGateway/UpdateTrustScore',
+                request_serializer=proto_dot_azt__pb2.UpdateTrustScoreRequest.SerializeToString,
+                response_deserializer=proto_dot_azt__pb2.TrustScoreResponse.FromString,
+                _registered_method=True)
+        self.GetAgentScore = channel.unary_unary(
+                '/azt.v1.AZTGateway/GetAgentScore',
+                request_serializer=proto_dot_azt__pb2.GetAgentScoreRequest.SerializeToString,
+                response_deserializer=proto_dot_azt__pb2.TrustScoreResponse.FromString,
+                _registered_method=True)
 
 
 class AZTGatewayServicer(object):
@@ -61,6 +71,18 @@ class AZTGatewayServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def UpdateTrustScore(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetAgentScore(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_AZTGatewayServicer_to_server(servicer, server):
     rpc_method_handlers = {
@@ -72,6 +94,16 @@ def add_AZTGatewayServicer_to_server(servicer, server):
             'GetTrustScore': grpc.unary_unary_rpc_method_handler(
                     servicer.GetTrustScore,
                     request_deserializer=proto_dot_azt__pb2.TrustScoreRequest.FromString,
+                    response_serializer=proto_dot_azt__pb2.TrustScoreResponse.SerializeToString,
+            ),
+            'UpdateTrustScore': grpc.unary_unary_rpc_method_handler(
+                    servicer.UpdateTrustScore,
+                    request_deserializer=proto_dot_azt__pb2.UpdateTrustScoreRequest.FromString,
+                    response_serializer=proto_dot_azt__pb2.TrustScoreResponse.SerializeToString,
+            ),
+            'GetAgentScore': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetAgentScore,
+                    request_deserializer=proto_dot_azt__pb2.GetAgentScoreRequest.FromString,
                     response_serializer=proto_dot_azt__pb2.TrustScoreResponse.SerializeToString,
             ),
     }
@@ -128,6 +160,60 @@ class AZTGateway(object):
             target,
             '/azt.v1.AZTGateway/GetTrustScore',
             proto_dot_azt__pb2.TrustScoreRequest.SerializeToString,
+            proto_dot_azt__pb2.TrustScoreResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def UpdateTrustScore(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/azt.v1.AZTGateway/UpdateTrustScore',
+            proto_dot_azt__pb2.UpdateTrustScoreRequest.SerializeToString,
+            proto_dot_azt__pb2.TrustScoreResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetAgentScore(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/azt.v1.AZTGateway/GetAgentScore',
+            proto_dot_azt__pb2.GetAgentScoreRequest.SerializeToString,
             proto_dot_azt__pb2.TrustScoreResponse.FromString,
             options,
             channel_credentials,

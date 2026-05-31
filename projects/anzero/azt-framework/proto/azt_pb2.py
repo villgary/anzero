@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fproto/azt.proto\x12\x06\x61zt.v1\"\xe9\x01\n\rActionContext\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\x12\x0e\n\x06\x61\x63tion\x18\x02 \x01(\t\x12\x0c\n\x04tool\x18\x03 \x01(\t\x12\x39\n\nparameters\x18\x04 \x03(\x0b\x32%.azt.v1.ActionContext.ParametersEntry\x12\x13\n\x0btrust_score\x18\x05 \x01(\x05\x12\x12\n\nsession_id\x18\x06 \x01(\t\x12\x11\n\ttimestamp\x18\x07 \x01(\x03\x1a\x31\n\x0fParametersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"<\n\x12\x45nforcementRequest\x12&\n\x07\x63ontext\x18\x01 \x01(\x0b\x32\x15.azt.v1.ActionContext\"z\n\x13\x45nforcementResponse\x12\"\n\x08\x64\x65\x63ision\x18\x01 \x01(\x0e\x32\x10.azt.v1.Decision\x12\x0e\n\x06reason\x18\x02 \x01(\t\x12\x1b\n\x13updated_trust_score\x18\x03 \x01(\x05\x12\x12\n\nrequest_id\x18\x04 \x01(\t\"%\n\x11TrustScoreRequest\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\"3\n\x12TrustScoreResponse\x12\r\n\x05score\x18\x01 \x01(\x05\x12\x0e\n\x06reason\x18\x02 \x01(\t*j\n\x08\x44\x65\x63ision\x12\x18\n\x14\x44\x45\x43ISION_UNSPECIFIED\x10\x00\x12\x12\n\x0e\x44\x45\x43ISION_ALLOW\x10\x01\x12\x11\n\rDECISION_DENY\x10\x02\x12\x1d\n\x19\x44\x45\x43ISION_REQUIRE_APPROVAL\x10\x03\x32\x98\x01\n\nAZTGateway\x12\x42\n\x07\x45nforce\x12\x1a.azt.v1.EnforcementRequest\x1a\x1b.azt.v1.EnforcementResponse\x12\x46\n\rGetTrustScore\x12\x19.azt.v1.TrustScoreRequest\x1a\x1a.azt.v1.TrustScoreResponseB.Z,github.com/anzero/azt-framework/proto/azt/v1b\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0fproto/azt.proto\x12\x06\x61zt.v1\"\xe9\x01\n\rActionContext\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\x12\x0e\n\x06\x61\x63tion\x18\x02 \x01(\t\x12\x0c\n\x04tool\x18\x03 \x01(\t\x12\x39\n\nparameters\x18\x04 \x03(\x0b\x32%.azt.v1.ActionContext.ParametersEntry\x12\x13\n\x0btrust_score\x18\x05 \x01(\x05\x12\x12\n\nsession_id\x18\x06 \x01(\t\x12\x11\n\ttimestamp\x18\x07 \x01(\x03\x1a\x31\n\x0fParametersEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"<\n\x12\x45nforcementRequest\x12&\n\x07\x63ontext\x18\x01 \x01(\x0b\x32\x15.azt.v1.ActionContext\"z\n\x13\x45nforcementResponse\x12\"\n\x08\x64\x65\x63ision\x18\x01 \x01(\x0e\x32\x10.azt.v1.Decision\x12\x0e\n\x06reason\x18\x02 \x01(\t\x12\x1b\n\x13updated_trust_score\x18\x03 \x01(\x05\x12\x12\n\nrequest_id\x18\x04 \x01(\t\"%\n\x11TrustScoreRequest\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\"q\n\x12TrustScoreResponse\x12\r\n\x05score\x18\x01 \x01(\x05\x12\x0e\n\x06reason\x18\x02 \x01(\t\x12*\n\tbreakdown\x18\x03 \x01(\x0b\x32\x17.azt.v1.FactorBreakdown\x12\x10\n\x08\x61gent_id\x18\x04 \x01(\t\"\xdc\x01\n\x17UpdateTrustScoreRequest\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\x12\x0e\n\x06\x66\x61\x63tor\x18\x02 \x01(\t\x12\r\n\x05\x64\x65lta\x18\x03 \x01(\x05\x12\x0e\n\x06reason\x18\x04 \x01(\t\x12J\n\x0e\x61\x63tion_context\x18\x05 \x03(\x0b\x32\x32.azt.v1.UpdateTrustScoreRequest.ActionContextEntry\x1a\x34\n\x12\x41\x63tionContextEntry\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t:\x02\x38\x01\"(\n\x14GetAgentScoreRequest\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\"f\n\x0f\x46\x61\x63torBreakdown\x12\x10\n\x08identity\x18\x01 \x01(\x05\x12\x0f\n\x07history\x18\x02 \x01(\x05\x12\x0c\n\x04time\x18\x03 \x01(\x05\x12\x0f\n\x07\x61nomaly\x18\x04 \x01(\x05\x12\x11\n\tfrequency\x18\x05 \x01(\x05*j\n\x08\x44\x65\x63ision\x12\x18\n\x14\x44\x45\x43ISION_UNSPECIFIED\x10\x00\x12\x12\n\x0e\x44\x45\x43ISION_ALLOW\x10\x01\x12\x11\n\rDECISION_DENY\x10\x02\x12\x1d\n\x19\x44\x45\x43ISION_REQUIRE_APPROVAL\x10\x03\x32\xb4\x02\n\nAZTGateway\x12\x42\n\x07\x45nforce\x12\x1a.azt.v1.EnforcementRequest\x1a\x1b.azt.v1.EnforcementResponse\x12\x46\n\rGetTrustScore\x12\x19.azt.v1.TrustScoreRequest\x1a\x1a.azt.v1.TrustScoreResponse\x12O\n\x10UpdateTrustScore\x12\x1f.azt.v1.UpdateTrustScoreRequest\x1a\x1a.azt.v1.TrustScoreResponse\x12I\n\rGetAgentScore\x12\x1c.azt.v1.GetAgentScoreRequest\x1a\x1a.azt.v1.TrustScoreResponseB.Z,github.com/anzero/azt-framework/proto/azt/v1b\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -34,8 +34,10 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._serialized_options = b'Z,github.com/anzero/azt-framework/proto/azt/v1'
   _globals['_ACTIONCONTEXT_PARAMETERSENTRY']._loaded_options = None
   _globals['_ACTIONCONTEXT_PARAMETERSENTRY']._serialized_options = b'8\001'
-  _globals['_DECISION']._serialized_start=541
-  _globals['_DECISION']._serialized_end=647
+  _globals['_UPDATETRUSTSCOREREQUEST_ACTIONCONTEXTENTRY']._loaded_options = None
+  _globals['_UPDATETRUSTSCOREREQUEST_ACTIONCONTEXTENTRY']._serialized_options = b'8\001'
+  _globals['_DECISION']._serialized_start=972
+  _globals['_DECISION']._serialized_end=1078
   _globals['_ACTIONCONTEXT']._serialized_start=28
   _globals['_ACTIONCONTEXT']._serialized_end=261
   _globals['_ACTIONCONTEXT_PARAMETERSENTRY']._serialized_start=212
@@ -47,7 +49,15 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_TRUSTSCOREREQUEST']._serialized_start=449
   _globals['_TRUSTSCOREREQUEST']._serialized_end=486
   _globals['_TRUSTSCORERESPONSE']._serialized_start=488
-  _globals['_TRUSTSCORERESPONSE']._serialized_end=539
-  _globals['_AZTGATEWAY']._serialized_start=650
-  _globals['_AZTGATEWAY']._serialized_end=802
+  _globals['_TRUSTSCORERESPONSE']._serialized_end=601
+  _globals['_UPDATETRUSTSCOREREQUEST']._serialized_start=604
+  _globals['_UPDATETRUSTSCOREREQUEST']._serialized_end=824
+  _globals['_UPDATETRUSTSCOREREQUEST_ACTIONCONTEXTENTRY']._serialized_start=772
+  _globals['_UPDATETRUSTSCOREREQUEST_ACTIONCONTEXTENTRY']._serialized_end=824
+  _globals['_GETAGENTSCOREREQUEST']._serialized_start=826
+  _globals['_GETAGENTSCOREREQUEST']._serialized_end=866
+  _globals['_FACTORBREAKDOWN']._serialized_start=868
+  _globals['_FACTORBREAKDOWN']._serialized_end=970
+  _globals['_AZTGATEWAY']._serialized_start=1081
+  _globals['_AZTGATEWAY']._serialized_end=1389
 # @@protoc_insertion_point(module_scope)
