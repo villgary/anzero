@@ -1,17 +1,33 @@
 import { AlertList } from '@/components/alerts/AlertList';
+import { api } from '@/lib/api';
 import styles from './page.module.css';
 
-const mockAlerts = [
-  { id: '1', severity: 'critical' as const, message: 'Prompt injection attempt', agentId: 'agent-42', analyzer: 'prompt_injection', createdAt: '2024-01-15T10:30:00Z' },
-  { id: '2', severity: 'high' as const, message: 'Unusual tool sequence', agentId: 'agent-17', analyzer: 'model_abuse', createdAt: '2024-01-15T10:25:00Z' },
-  { id: '3', severity: 'medium' as const, message: 'Elevated request rate', agentId: 'agent-99', analyzer: 'rate_limit', createdAt: '2024-01-15T10:20:00Z' },
-];
+export default async function AlertsPage() {
+  let alerts: Array<{
+    id: string;
+    severity: 'critical' | 'high' | 'medium' | 'low';
+    message: string;
+    agentId: string;
+    analyzer?: string;
+    createdAt?: string;
+  }> = [];
 
-export default function AlertsPage() {
+  try {
+    const data = await api.alerts.list();
+    alerts = data.alerts.map(a => ({
+      id: a.id,
+      severity: a.severity,
+      message: a.message,
+      agentId: a.agentId,
+    }));
+  } catch (error) {
+    console.error('Failed to fetch alerts:', error);
+  }
+
   return (
     <div className={styles.page}>
       <h1>Alerts</h1>
-      <AlertList alerts={mockAlerts} />
+      <AlertList alerts={alerts} />
     </div>
   );
 }

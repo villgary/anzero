@@ -1,15 +1,28 @@
 import { ApprovalQueue } from '@/components/approvals/ApprovalQueue';
+import { api } from '@/lib/api';
 import styles from './page.module.css';
 
-const mockRequests = [
-  { id: '1', agentId: 'agent-99', action: 'tool_call', tool: 'delete_database', reason: 'Database cleanup request from cron job', requestedAt: '2024-01-15T10:00:00Z' },
-];
+export default async function ApprovalsPage() {
+  let requests: Array<{
+    id: string;
+    agentId: string;
+    action: string;
+    tool: string;
+    reason: string;
+    requestedAt?: string;
+  }> = [];
 
-export default function ApprovalsPage() {
+  try {
+    const data = await api.approvals.list();
+    requests = data.approvals;
+  } catch (error) {
+    console.error('Failed to fetch approvals:', error);
+  }
+
   return (
     <div className={styles.page}>
       <h1>Approval Queue</h1>
-      <ApprovalQueue requests={mockRequests} />
+      <ApprovalQueue requests={requests} />
     </div>
   );
 }
