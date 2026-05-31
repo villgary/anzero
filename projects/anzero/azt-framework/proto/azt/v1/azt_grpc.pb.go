@@ -19,8 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	AZTGateway_Enforce_FullMethodName       = "/azt.v1.AZTGateway/Enforce"
-	AZTGateway_GetTrustScore_FullMethodName = "/azt.v1.AZTGateway/GetTrustScore"
+	AZTGateway_Enforce_FullMethodName          = "/azt.v1.AZTGateway/Enforce"
+	AZTGateway_GetTrustScore_FullMethodName    = "/azt.v1.AZTGateway/GetTrustScore"
+	AZTGateway_UpdateTrustScore_FullMethodName = "/azt.v1.AZTGateway/UpdateTrustScore"
+	AZTGateway_GetAgentScore_FullMethodName    = "/azt.v1.AZTGateway/GetAgentScore"
 )
 
 // AZTGatewayClient is the client API for AZTGateway service.
@@ -29,6 +31,8 @@ const (
 type AZTGatewayClient interface {
 	Enforce(ctx context.Context, in *EnforcementRequest, opts ...grpc.CallOption) (*EnforcementResponse, error)
 	GetTrustScore(ctx context.Context, in *TrustScoreRequest, opts ...grpc.CallOption) (*TrustScoreResponse, error)
+	UpdateTrustScore(ctx context.Context, in *UpdateTrustScoreRequest, opts ...grpc.CallOption) (*TrustScoreResponse, error)
+	GetAgentScore(ctx context.Context, in *GetAgentScoreRequest, opts ...grpc.CallOption) (*TrustScoreResponse, error)
 }
 
 type aZTGatewayClient struct {
@@ -57,12 +61,32 @@ func (c *aZTGatewayClient) GetTrustScore(ctx context.Context, in *TrustScoreRequ
 	return out, nil
 }
 
+func (c *aZTGatewayClient) UpdateTrustScore(ctx context.Context, in *UpdateTrustScoreRequest, opts ...grpc.CallOption) (*TrustScoreResponse, error) {
+	out := new(TrustScoreResponse)
+	err := c.cc.Invoke(ctx, AZTGateway_UpdateTrustScore_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *aZTGatewayClient) GetAgentScore(ctx context.Context, in *GetAgentScoreRequest, opts ...grpc.CallOption) (*TrustScoreResponse, error) {
+	out := new(TrustScoreResponse)
+	err := c.cc.Invoke(ctx, AZTGateway_GetAgentScore_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AZTGatewayServer is the server API for AZTGateway service.
 // All implementations must embed UnimplementedAZTGatewayServer
 // for forward compatibility
 type AZTGatewayServer interface {
 	Enforce(context.Context, *EnforcementRequest) (*EnforcementResponse, error)
 	GetTrustScore(context.Context, *TrustScoreRequest) (*TrustScoreResponse, error)
+	UpdateTrustScore(context.Context, *UpdateTrustScoreRequest) (*TrustScoreResponse, error)
+	GetAgentScore(context.Context, *GetAgentScoreRequest) (*TrustScoreResponse, error)
 	mustEmbedUnimplementedAZTGatewayServer()
 }
 
@@ -75,6 +99,12 @@ func (UnimplementedAZTGatewayServer) Enforce(context.Context, *EnforcementReques
 }
 func (UnimplementedAZTGatewayServer) GetTrustScore(context.Context, *TrustScoreRequest) (*TrustScoreResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTrustScore not implemented")
+}
+func (UnimplementedAZTGatewayServer) UpdateTrustScore(context.Context, *UpdateTrustScoreRequest) (*TrustScoreResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTrustScore not implemented")
+}
+func (UnimplementedAZTGatewayServer) GetAgentScore(context.Context, *GetAgentScoreRequest) (*TrustScoreResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAgentScore not implemented")
 }
 func (UnimplementedAZTGatewayServer) mustEmbedUnimplementedAZTGatewayServer() {}
 
@@ -125,6 +155,42 @@ func _AZTGateway_GetTrustScore_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AZTGateway_UpdateTrustScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTrustScoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AZTGatewayServer).UpdateTrustScore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AZTGateway_UpdateTrustScore_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AZTGatewayServer).UpdateTrustScore(ctx, req.(*UpdateTrustScoreRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AZTGateway_GetAgentScore_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAgentScoreRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AZTGatewayServer).GetAgentScore(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AZTGateway_GetAgentScore_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AZTGatewayServer).GetAgentScore(ctx, req.(*GetAgentScoreRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AZTGateway_ServiceDesc is the grpc.ServiceDesc for AZTGateway service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +205,14 @@ var AZTGateway_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTrustScore",
 			Handler:    _AZTGateway_GetTrustScore_Handler,
+		},
+		{
+			MethodName: "UpdateTrustScore",
+			Handler:    _AZTGateway_UpdateTrustScore_Handler,
+		},
+		{
+			MethodName: "GetAgentScore",
+			Handler:    _AZTGateway_GetAgentScore_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

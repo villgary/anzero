@@ -14,11 +14,11 @@ from proto.azt_pb2 import (
     ActionContext as pb2_ActionContext,
     EnforcementRequest,
     TrustScoreRequest,
-    Decision as pb2_Decision,
     UpdateTrustScoreRequest,
     GetAgentScoreRequest,
     TrustScoreResponse,
     FactorBreakdown,
+    Decision as pb2_Decision,
 )
 from proto.azt_pb2_grpc import AZTGatewayStub
 
@@ -80,9 +80,7 @@ class AZTClient:
         }
 
     def get_agent_score(self, agent_id: str) -> dict:
-        req = GetAgentScoreRequest(
-            agent_id=agent_id,
-        )
+        req = GetAgentScoreRequest(agent_id=agent_id)
         resp = self.stub.GetAgentScore(req, timeout=self.config.timeout_seconds)
         return {
             "score": resp.score,
