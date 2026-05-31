@@ -14,6 +14,9 @@ from proto.azt_pb2 import (
     ActionContext as pb2_ActionContext,
     EnforcementRequest,
     TrustScoreRequest,
+    UpdateTrustScoreRequest,
+    GetAgentScoreRequest,
+    FactorBreakdown,
     Decision as pb2_Decision,
 )
 from proto.azt_pb2_grpc import AZTGatewayStub
@@ -52,6 +55,44 @@ class AZTClient:
         req = TrustScoreRequest(agent_id=agent_id)
         resp = self.stub.GetTrustScore(req, timeout=self.config.timeout_seconds)
         return resp.score, resp.reason
+
+    def update_trust_score(self, agent_id: str, factor: str, delta: int, reason: str, action_context: dict = None) -> dict:
+        req = UpdateTrustScoreRequest(
+            agent_id=agent_id,
+            factor=factor,
+            delta=delta,
+            reason=reason,
+            action_context=action_context or {},
+        )
+        resp = self.stub.UpdateTrustScore(req, timeout=self.config.timeout_seconds)
+        return {
+            "score": resp.score,
+            "reason": resp.reason,
+            "agent_id": resp.agent_id,
+            "breakdown": {
+                "identity": resp.breakdown.identity,
+                "history": resp.breakdown.history,
+                "time": resp.breakdown.time,
+                "anomaly": resp.breakdown.anomaly,
+                "frequency": resp.breakdown.frequency,
+            } if resp.breakdown else None,
+        }
+
+    def get_agent_score(self, agent_id: str) -> dict:
+        req = GetAgentScoreRequest(agent_id=agent_id)
+        resp = self.stub.GetAgentScore(req, timeout=self.config.timeout_seconds)
+        return {
+            "score": resp.score,
+            "reason": resp.reason,
+            "agent_id": resp.agent_id,
+            "breakdown": {
+                "identity": resp.breakdown.identity,
+                "history": resp.breakdown.history,
+                "time": resp.breakdown.time,
+                "anomaly": resp.breakdown.anomaly,
+                "frequency": resp.breakdown.frequency,
+            } if resp.breakdown else None,
+        }
 
     def close(self):
         self.channel.close()
