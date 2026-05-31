@@ -15,7 +15,7 @@ func main() {
 
 	config := zap.NewProductionConfig()
 	config.EncoderConfig.TimeKey = "timestamp"
-	config.EncoderConfig.EncodeTime = zapcore.ISO8601Encoder
+	config.EncoderConfig.EncodeTime = zapcore.ISO8601TimeEncoder
 	logger, _ := config.Build()
 
 	server := grpc.NewServer(*addr, logger)
