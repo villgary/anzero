@@ -7,14 +7,8 @@
   margin-left: 220px;
   flex: 1;
   padding: 24px;
-  background: #f5f7fa;
-}
-
-@media (prefers-color-scheme: dark) {
-  .main {
-    background: #1a1a2e;
-    color: #ededed;
-  }
+  background: var(--background);
+  min-height: 100vh;
 }
 
 [dir="rtl"] .main {
