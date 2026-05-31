@@ -14,6 +14,7 @@ type Shield struct {
 func NewShield(logger *zap.Logger) *Shield {
 	analyzers := []Analyzer{
 		NewInjectorAnalyzer(nil),
+		NewExfiltrationAnalyzer(nil),
 	}
 	aggregator := NewAggregator(80, 50)
 	return &Shield{
