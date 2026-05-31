@@ -3,7 +3,6 @@ syntax = "proto3";
 package azt.v1;
 
 option go_package = "github.com/anzero/azt-framework/proto/azt/v1";
-option python_package = "azt.proto.azt_v1";
 
 message ActionContext {
   string agent_id = 1;
