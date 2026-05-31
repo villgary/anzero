@@ -16,6 +16,7 @@ from proto.azt_pb2 import (
     TrustScoreRequest,
     UpdateTrustScoreRequest,
     GetAgentScoreRequest,
+    TrustScoreResponse,
     FactorBreakdown,
     Decision as pb2_Decision,
 )

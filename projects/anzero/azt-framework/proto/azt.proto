@@ -63,9 +63,28 @@ message FactorBreakdown {
   int32 frequency = 5;
 }
 
+message ThreatShieldRequest {
+  string agent_id = 1;
+  string action = 2;
+  string tool = 3;
+  string prompt = 4;
+  string output = 5;
+  map<string, string> parameters = 6;
+  int32 trust_score = 7;
+  int64 timestamp = 8;
+}
+
+message ThreatShieldResponse {
+  string decision = 1;
+  int32 severity_score = 2;
+  repeated string indicators = 3;
+  string reason = 4;
+}
+
 service AZTGateway {
   rpc Enforce(EnforcementRequest) returns (EnforcementResponse);
   rpc GetTrustScore(TrustScoreRequest) returns (TrustScoreResponse);
   rpc UpdateTrustScore(UpdateTrustScoreRequest) returns (TrustScoreResponse);
   rpc GetAgentScore(GetAgentScoreRequest) returns (TrustScoreResponse);
+  rpc ThreatShieldScan(ThreatShieldRequest) returns (ThreatShieldResponse);
 }

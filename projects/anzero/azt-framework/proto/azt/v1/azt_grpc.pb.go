@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v7.34.1
-// source: proto/azt.proto
+// source: azt.proto
 
 package v1
 
@@ -23,6 +23,7 @@ const (
 	AZTGateway_GetTrustScore_FullMethodName    = "/azt.v1.AZTGateway/GetTrustScore"
 	AZTGateway_UpdateTrustScore_FullMethodName = "/azt.v1.AZTGateway/UpdateTrustScore"
 	AZTGateway_GetAgentScore_FullMethodName    = "/azt.v1.AZTGateway/GetAgentScore"
+	AZTGateway_ThreatShieldScan_FullMethodName = "/azt.v1.AZTGateway/ThreatShieldScan"
 )
 
 // AZTGatewayClient is the client API for AZTGateway service.
@@ -33,6 +34,7 @@ type AZTGatewayClient interface {
 	GetTrustScore(ctx context.Context, in *TrustScoreRequest, opts ...grpc.CallOption) (*TrustScoreResponse, error)
 	UpdateTrustScore(ctx context.Context, in *UpdateTrustScoreRequest, opts ...grpc.CallOption) (*TrustScoreResponse, error)
 	GetAgentScore(ctx context.Context, in *GetAgentScoreRequest, opts ...grpc.CallOption) (*TrustScoreResponse, error)
+	ThreatShieldScan(ctx context.Context, in *ThreatShieldRequest, opts ...grpc.CallOption) (*ThreatShieldResponse, error)
 }
 
 type aZTGatewayClient struct {
@@ -79,6 +81,15 @@ func (c *aZTGatewayClient) GetAgentScore(ctx context.Context, in *GetAgentScoreR
 	return out, nil
 }
 
+func (c *aZTGatewayClient) ThreatShieldScan(ctx context.Context, in *ThreatShieldRequest, opts ...grpc.CallOption) (*ThreatShieldResponse, error) {
+	out := new(ThreatShieldResponse)
+	err := c.cc.Invoke(ctx, AZTGateway_ThreatShieldScan_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AZTGatewayServer is the server API for AZTGateway service.
 // All implementations must embed UnimplementedAZTGatewayServer
 // for forward compatibility
@@ -87,6 +98,7 @@ type AZTGatewayServer interface {
 	GetTrustScore(context.Context, *TrustScoreRequest) (*TrustScoreResponse, error)
 	UpdateTrustScore(context.Context, *UpdateTrustScoreRequest) (*TrustScoreResponse, error)
 	GetAgentScore(context.Context, *GetAgentScoreRequest) (*TrustScoreResponse, error)
+	ThreatShieldScan(context.Context, *ThreatShieldRequest) (*ThreatShieldResponse, error)
 	mustEmbedUnimplementedAZTGatewayServer()
 }
 
@@ -105,6 +117,9 @@ func (UnimplementedAZTGatewayServer) UpdateTrustScore(context.Context, *UpdateTr
 }
 func (UnimplementedAZTGatewayServer) GetAgentScore(context.Context, *GetAgentScoreRequest) (*TrustScoreResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAgentScore not implemented")
+}
+func (UnimplementedAZTGatewayServer) ThreatShieldScan(context.Context, *ThreatShieldRequest) (*ThreatShieldResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ThreatShieldScan not implemented")
 }
 func (UnimplementedAZTGatewayServer) mustEmbedUnimplementedAZTGatewayServer() {}
 
@@ -191,6 +206,24 @@ func _AZTGateway_GetAgentScore_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AZTGateway_ThreatShieldScan_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ThreatShieldRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AZTGatewayServer).ThreatShieldScan(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AZTGateway_ThreatShieldScan_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AZTGatewayServer).ThreatShieldScan(ctx, req.(*ThreatShieldRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AZTGateway_ServiceDesc is the grpc.ServiceDesc for AZTGateway service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -214,7 +247,11 @@ var AZTGateway_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "GetAgentScore",
 			Handler:    _AZTGateway_GetAgentScore_Handler,
 		},
+		{
+			MethodName: "ThreatShieldScan",
+			Handler:    _AZTGateway_ThreatShieldScan_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/azt.proto",
+	Metadata: "azt.proto",
 }
