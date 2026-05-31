@@ -39,9 +39,33 @@ message TrustScoreRequest {
 message TrustScoreResponse {
   int32 score = 1;
   string reason = 2;
+  FactorBreakdown breakdown = 3;
+  string agent_id = 4;
+}
+
+message UpdateTrustScoreRequest {
+  string agent_id = 1;
+  string factor = 2;
+  int32 delta = 3;
+  string reason = 4;
+  map<string, string> action_context = 5;
+}
+
+message GetAgentScoreRequest {
+  string agent_id = 1;
+}
+
+message FactorBreakdown {
+  int32 identity = 1;
+  int32 history = 2;
+  int32 time = 3;
+  int32 anomaly = 4;
+  int32 frequency = 5;
 }
 
 service AZTGateway {
   rpc Enforce(EnforcementRequest) returns (EnforcementResponse);
   rpc GetTrustScore(TrustScoreRequest) returns (TrustScoreResponse);
+  rpc UpdateTrustScore(UpdateTrustScoreRequest) returns (TrustScoreResponse);
+  rpc GetAgentScore(GetAgentScoreRequest) returns (TrustScoreResponse);
 }
