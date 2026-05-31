@@ -1,0 +1,17 @@
+{
+  "dashboard": {
+    "title": "安全概览",
+    "activeAgents": "活跃代理",
+    "threatsBlocked": "已阻止威胁",
+    "avgTrustScore": "平均信任分数",
+    "pendingApprovals": "待审批"
+  },
+  "nav": {
+    "dashboard": "仪表板",
+    "policies": "策略",
+    "agents": "代理",
+    "alerts": "告警",
+    "approvals": "审批",
+    "settings": "设置"
+  }
+}
